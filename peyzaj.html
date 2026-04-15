@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Peyzaj35 - Profesyonel peyzaj tasarım ve uygulama hizmetleri">
+    <title>Peyzaj Tasarım & Uygulama | Peyzaj35</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        :root {
+            --green-dark: #1a3a0f;
+            --green-mid: #2d5a1b;
+            --green-light: #4a8c3f;
+            --gold: #c9a227;
+            --gold-light: #e5c84a;
+            --cream: #f8f4ed;
+            --cream-dark: #ede8df;
+            --white: #ffffff;
+            --text-dark: #1c2b1a;
+            --text-mid: #4a5240;
+            --text-light: #7a8a70;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.18);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --ease: all 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+        img { display: block; max-width: 100%; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
+
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 90px 0; }
+        .section-label { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
+        .section-title { font-size: clamp(1.8rem,3.5vw,2.5rem); color: var(--text-dark); margin-bottom: 1rem; }
+        .section-desc { font-size: 1rem; color: var(--text-mid); line-height: 1.8; max-width: 620px; }
+        .section-header { margin-bottom: 56px; }
+        .text-center { text-align: center; }
+        .text-center .section-desc { margin: 0 auto; }
+
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 500; cursor: pointer; border: none; transition: var(--ease); }
+        .btn-primary { background: var(--gold); color: var(--text-dark); }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,162,39,.4); }
+        .btn-green { background: var(--green-mid); color: var(--white); }
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-2px); }
+        .btn-outline-white { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.7); }
+        .btn-outline-white:hover { background: rgba(255,255,255,.12); transform: translateY(-2px); }
+
+        /* ── NAVBAR ── */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; transition: var(--ease); background: rgba(26,58,15,.95); backdrop-filter: blur(12px); box-shadow: var(--shadow-sm); }
+        .navbar.scrolled { padding: 14px 0; }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); }
+        .nav-logo-icon { width: 36px; height: 36px; background: var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .nav-links { display: flex; align-items: center; gap: 36px; }
+        .nav-links a { font-size: .9rem; font-weight: 500; color: rgba(255,255,255,.85); transition: var(--ease); position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gold); transition: var(--ease); }
+        .nav-links a:hover { color: var(--gold); }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-cta { background: var(--gold) !important; color: var(--text-dark) !important; padding: 10px 24px; border-radius: 50px; font-weight: 600 !important; }
+        .nav-cta::after { display: none !important; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: var(--ease); }
+
+        /* ── MOBILE NAV ── */
+        .mobile-nav { display: none; position: fixed; inset: 0; background: var(--green-dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--white); transition: var(--ease); }
+        .mobile-nav a:hover { color: var(--gold); }
+        .mobile-close { position: absolute; top: 24px; right: 24px; font-size: 1.5rem; color: var(--white); cursor: pointer; background: none; border: none; }
+
+        /* ── PAGE HERO ── */
+        .page-hero {
+            padding: 160px 0 80px;
+            background: linear-gradient(135deg, #0f2408 0%, #1a3a0f 50%, #2d5a1b 100%);
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url('https://picsum.photos/seed/landscp1/1600/600') center/cover;
+            opacity: .1;
+        }
+        .page-hero-deco {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,162,39,.12) 0%, transparent 70%);
+        }
+        .deco-1 { width: 500px; height: 500px; top: -200px; right: -100px; }
+        .deco-2 { width: 300px; height: 300px; bottom: -100px; left: 5%; }
+        .page-hero-inner { position: relative; z-index: 2; }
+        .breadcrumb { display: flex; align-items: center; justify-content: center; gap: 8px; color: rgba(255,255,255,.55); font-size: .82rem; margin-bottom: 20px; }
+        .breadcrumb a { color: rgba(255,255,255,.55); transition: var(--ease); }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb i { font-size: .65rem; }
+        .page-hero h1 { font-size: clamp(2.2rem,5vw,3.5rem); color: var(--white); margin-bottom: 20px; }
+        .page-hero p { font-size: 1.1rem; color: rgba(255,255,255,.72); max-width: 600px; margin: 0 auto 36px; line-height: 1.8; }
+        .hero-icon { width: 72px; height: 72px; background: rgba(201,162,39,.2); border: 2px solid rgba(201,162,39,.4); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; }
+        .hero-icon i { color: var(--gold); font-size: 1.8rem; }
+
+        /* ── FEATURE CARDS ── */
+        .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+        .feat-card { background: var(--white); border: 1.5px solid var(--cream-dark); border-radius: var(--radius-lg); padding: 32px 28px; transition: var(--ease); }
+        .feat-card:hover { border-color: var(--green-light); box-shadow: var(--shadow); transform: translateY(-4px); }
+        .feat-icon { width: 56px; height: 56px; background: linear-gradient(135deg, var(--green-mid), var(--green-light)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 18px; }
+        .feat-icon i { color: var(--white); font-size: 1.4rem; }
+        .feat-card h3 { font-size: 1.15rem; margin-bottom: 10px; }
+        .feat-card p { font-size: .88rem; color: var(--text-mid); line-height: 1.75; }
+
+        /* ── PROCESS STEPS ── */
+        .steps-section { background: var(--cream); }
+        .steps-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; position: relative; }
+        .steps-grid::before { content: ''; position: absolute; top: 34px; left: calc(12.5%); right: calc(12.5%); height: 2px; background: linear-gradient(to right, var(--green-mid), var(--gold)); z-index: 0; }
+        .step { text-align: center; padding: 0 20px; }
+        .step-num { width: 68px; height: 68px; border-radius: 50%; background: var(--green-mid); color: var(--white); display: flex; align-items: center; justify-content: center; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; margin: 0 auto 20px; position: relative; z-index: 1; border: 4px solid var(--cream); transition: var(--ease); }
+        .step:hover .step-num { background: var(--gold); color: var(--text-dark); }
+        .step h3 { font-size: 1.1rem; margin-bottom: 10px; }
+        .step p { font-size: .85rem; color: var(--text-mid); line-height: 1.7; }
+
+        /* ── CTA SECTION ── */
+        .cta-section { background: linear-gradient(135deg, var(--green-dark), var(--green-mid)); padding: 80px 0; text-align: center; }
+        .cta-section h2 { font-size: clamp(1.8rem,3vw,2.5rem); color: var(--white); margin-bottom: 16px; }
+        .cta-section p { color: rgba(255,255,255,.72); font-size: 1rem; max-width: 480px; margin: 0 auto 36px; line-height: 1.8; }
+        .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+        /* ── INTRO SECTION ── */
+        .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; }
+        .intro-img { border-radius: var(--radius-lg); overflow: hidden; height: 420px; }
+        .intro-img img { width: 100%; height: 100%; object-fit: cover; }
+        .intro-content .section-desc { max-width: 100%; margin-bottom: 16px; }
+        .check-list { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+        .check-item { display: flex; align-items: center; gap: 12px; font-size: .92rem; color: var(--text-mid); }
+        .check-item i { color: var(--green-mid); font-size: 1rem; width: 20px; flex-shrink: 0; }
+
+        /* ── FOOTER ── */
+        .footer { background: var(--green-dark); color: rgba(255,255,255,.65); padding: 70px 0 0; }
+        .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 60px; }
+        .footer .nav-logo { color: var(--white); margin-bottom: 16px; }
+        .footer-brand p { font-size: .88rem; line-height: 1.75; margin-bottom: 24px; }
+        .footer-title { font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; color: var(--white); margin-bottom: 20px; }
+        .footer-links { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: .88rem; color: rgba(255,255,255,.55); transition: var(--ease); display: flex; align-items: center; gap: 6px; }
+        .footer-links a:hover { color: var(--gold); gap: 10px; }
+        .f-contact-item { display: flex; align-items: flex-start; gap: 10px; font-size: .85rem; margin-bottom: 14px; }
+        .f-contact-item i { color: var(--gold); margin-top: 2px; flex-shrink: 0; }
+        .socials { display: flex; gap: 10px; }
+        .soc-btn { width: 42px; height: 42px; border-radius: 10px; background: rgba(255,255,255,.08); display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); font-size: 1rem; transition: var(--ease); }
+        .soc-btn:hover { background: var(--gold); color: var(--text-dark); transform: translateY(-3px); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+        .footer-bottom p { font-size: .82rem; }
+        .footer-bottom-links { display: flex; gap: 24px; }
+        .footer-bottom-links a { font-size: .82rem; color: rgba(255,255,255,.45); transition: var(--ease); }
+        .footer-bottom-links a:hover { color: var(--gold); }
+
+        /* ── ANIMATIONS ── */
+        .fade-up { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; } .d5 { transition-delay: .5s; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .features-grid { grid-template-columns: repeat(2,1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+        }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .features-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .steps-grid::before { display: none; }
+            .intro-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .steps-grid { grid-template-columns: 1fr; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+    <button class="mobile-close" id="mobileClose"><i class="fa fa-times"></i></button>
+    <a href="index.html" onclick="closeMob()">Ana Sayfa</a>
+    <a href="index.html#hizmetler" onclick="closeMob()">Hizmetler</a>
+    <a href="index.html#hakkimizda" onclick="closeMob()">Hakkımızda</a>
+    <a href="index.html#galeri" onclick="closeMob()">Galeri</a>
+    <a href="index.html#iletisim" onclick="closeMob()">İletişim</a>
+</nav>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">
+            <div class="nav-logo-icon">🌿</div>
+            Peyzaj35
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Ana Sayfa</a></li>
+            <li><a href="index.html#hizmetler">Hizmetler</a></li>
+            <li><a href="index.html#hakkimizda">Hakkımızda</a></li>
+            <li><a href="index.html#galeri">Galeri</a></li>
+            <li><a href="index.html#iletisim" class="nav-cta">İletişim</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menü">
+            <span></span><span></span><span></span>
+        </button>
+    </div>
+</header>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+    <div class="page-hero-deco deco-1"></div>
+    <div class="page-hero-deco deco-2"></div>
+    <div class="container">
+        <div class="page-hero-inner">
+            <div class="breadcrumb">
+                <a href="index.html">Ana Sayfa</a>
+                <i class="fa fa-chevron-right"></i>
+                <a href="index.html#hizmetler">Hizmetler</a>
+                <i class="fa fa-chevron-right"></i>
+                <span>Peyzaj Tasarım & Uygulama</span>
+            </div>
+            <div class="hero-icon"><i class="fa fa-seedling"></i></div>
+            <h1>Peyzaj Tasarım<br>& Uygulama</h1>
+            <p>Dış mekanlarınızı yaşayan bir sanat eserine dönüştürüyoruz. Tasarımdan uygulamaya, bakımdan danışmanlığa kadar eksiksiz bir hizmet.</p>
+            <a href="index.html#iletisim" class="btn btn-primary"><i class="fa fa-calendar"></i> Randevu Al</a>
+        </div>
+    </div>
+</section>
+
+<!-- INTRO -->
+<section class="section">
+    <div class="container">
+        <div class="intro-grid">
+            <div class="intro-img fade-up">
+                <img src="https://picsum.photos/seed/landscp1/800/600" alt="Peyzaj Tasarım">
+            </div>
+            <div class="intro-content fade-up d2">
+                <span class="section-label">Neden Peyzaj35?</span>
+                <h2 class="section-title">Doğayı Evinize Taşıyoruz</h2>
+                <p class="section-desc">
+                    10 yılı aşkın deneyimimizle İzmir ve çevresinde yüzlerce peyzaj projesi tamamladık. Her projeye özgün bir bakış açısı, doğal malzeme kullanımı ve uzman işçilikle yaklaşıyoruz.
+                </p>
+                <p class="section-desc" style="margin-top:12px">
+                    Küçük bir balkon bahçesinden geniş kurumsal yeşil alanlara kadar her ölçekte proje üretiyor; tasarım, uygulama ve bakım hizmetlerini tek çatı altında sunuyoruz.
+                </p>
+                <div class="check-list">
+                    <div class="check-item"><i class="fa fa-check-circle"></i> Yerinde keşif ve ücretsiz ön görüşme</div>
+                    <div class="check-item"><i class="fa fa-check-circle"></i> Projeye özel 3D görselleştirme</div>
+                    <div class="check-item"><i class="fa fa-check-circle"></i> Zamanında teslimat garantisi</div>
+                    <div class="check-item"><i class="fa fa-check-circle"></i> Teslim sonrası bakım desteği</div>
+                    <div class="check-item"><i class="fa fa-check-circle"></i> Yerel iklime uygun bitki seçimi</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section class="section" style="background:var(--cream)">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-label">Hizmet Kapsamı</span>
+            <h2 class="section-title">Sunduğumuz Hizmetler</h2>
+            <p class="section-desc">İhtiyacınıza göre şekillenen kapsamlı peyzaj çözümleri.</p>
+        </div>
+        <div class="features-grid">
+            <div class="feat-card fade-up">
+                <div class="feat-icon"><i class="fa fa-drafting-compass"></i></div>
+                <h3>Bahçe Tasarımı</h3>
+                <p>Alanınıza özgü, estetik ve işlevsel bahçe projeleri hazırlıyoruz. Topografya, iklim ve kullanım alışkanlıklarınızı göz önünde bulundurarak en uygun tasarımı oluşturuyoruz.</p>
+            </div>
+            <div class="feat-card fade-up d1">
+                <div class="feat-icon"><i class="fa fa-hard-hat"></i></div>
+                <h3>Peyzaj Uygulaması</h3>
+                <p>Onaylanan projeleri deneyimli ekibimizle en yüksek kalite standartlarında hayata geçiriyoruz. Uygulama sürecinde düzenli bilgilendirme yapıyoruz.</p>
+            </div>
+            <div class="feat-card fade-up d2">
+                <div class="feat-icon"><i class="fa fa-tint"></i></div>
+                <h3>Sulama Sistemleri</h3>
+                <p>Damla sulama ve otomatik yağmurlama sistemleri kurarak su tasarrufu sağlıyoruz. Akıllı kontrol sistemleriyle bitkileriniz her zaman doğru miktarda sulanır.</p>
+            </div>
+            <div class="feat-card fade-up d3">
+                <div class="feat-icon"><i class="fa fa-leaf"></i></div>
+                <h3>Bitki & Çiçek Seçimi</h3>
+                <p>İzmir iklimine ve toprağınıza en uygun bitki türlerini uzman kadromuzla seçiyoruz. Dört mevsim canlı bir bahçe için doğru bitki kombinasyonları oluşturuyoruz.</p>
+            </div>
+            <div class="feat-card fade-up d4">
+                <div class="feat-icon"><i class="fa fa-road"></i></div>
+                <h3>Taş & Zemin Döşeme</h3>
+                <p>Yürüyüş yolları, teras, pergola ve bahçe zeminleri için doğal taş, ahşap veya kompozit malzemelerle estetik ve dayanıklı çözümler sunuyoruz.</p>
+            </div>
+            <div class="feat-card fade-up d5">
+                <div class="feat-icon"><i class="fa fa-cut"></i></div>
+                <h3>Peyzaj Bakımı</h3>
+                <p>Aylık veya mevsimlik bakım anlaşmaları ile yeşil alanlarınızın güzelliğini yıl boyu koruyoruz. Budama, gübreleme, ilaçlama ve genel temizlik hizmetleri dahildir.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="section steps-section">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-label">Nasıl Çalışıyoruz?</span>
+            <h2 class="section-title">Çalışma Sürecimiz</h2>
+            <p class="section-desc">Projenizin başından sonuna kadar şeffaf ve düzenli bir süreç yönetimi sunuyoruz.</p>
+        </div>
+        <div class="steps-grid">
+            <div class="step fade-up">
+                <div class="step-num">1</div>
+                <h3>Keşif & Analiz</h3>
+                <p>Alanınızı yerinde inceliyor, ihtiyaçlarınızı ve beklentilerinizi dinliyoruz. Ücretsiz ön görüşme ile başlıyoruz.</p>
+            </div>
+            <div class="step fade-up d1">
+                <div class="step-num">2</div>
+                <h3>Tasarım</h3>
+                <p>Uzman ekibimiz projenizi 2D/3D görseller eşliğinde hazırlayıp onayınıza sunuyor. Revizyon hakkı sınırsız.</p>
+            </div>
+            <div class="step fade-up d2">
+                <div class="step-num">3</div>
+                <h3>Uygulama</h3>
+                <p>Onaylanan projeyi zamanında ve özenle hayata geçiriyoruz. Süreç boyunca düzenli ilerleme bildirimleri yapıyoruz.</p>
+            </div>
+            <div class="step fade-up d3">
+                <div class="step-num">4</div>
+                <h3>Teslim & Bakım</h3>
+                <p>Projeyi birlikte geziyoruz. İsteğinizle aylık bakım paketleriyle yeşil alanınızı uzun yıllar canlı tutuyoruz.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <div class="container">
+        <h2>Projenizi Hayata Geçirelim</h2>
+        <p>Ücretsiz keşif ve danışmanlık için bizimle iletişime geçin. En kısa sürede size geri döneceğiz.</p>
+        <div class="cta-buttons">
+            <a href="index.html#iletisim" class="btn btn-primary"><i class="fa fa-phone"></i> İletişime Geç</a>
+            <a href="index.html#galeri" class="btn btn-outline-white"><i class="fa fa-images"></i> Galeriyi Gör</a>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="index.html" class="nav-logo">
+                    <div class="nav-logo-icon">🌿</div>
+                    Peyzaj35
+                </a>
+                <p>İzmir'in yeşil kalbinde, doğayla iç içe bir deneyim sunuyoruz. Peyzaj tasarımı, kır düğünü ve özel organizasyonlar için güvenilir adresiniz.</p>
+                <div class="socials">
+                    <a href="#" class="soc-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="soc-btn"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-title">Hızlı Bağlantılar</p>
+                <ul class="footer-links">
+                    <li><a href="index.html"><i class="fa fa-chevron-right"></i> Ana Sayfa</a></li>
+                    <li><a href="index.html#hizmetler"><i class="fa fa-chevron-right"></i> Hizmetler</a></li>
+                    <li><a href="index.html#hakkimizda"><i class="fa fa-chevron-right"></i> Hakkımızda</a></li>
+                    <li><a href="index.html#galeri"><i class="fa fa-chevron-right"></i> Galeri</a></li>
+                    <li><a href="index.html#iletisim"><i class="fa fa-chevron-right"></i> İletişim</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-title">Hizmetler</p>
+                <ul class="footer-links">
+                    <li><a href="peyzaj.html"><i class="fa fa-chevron-right"></i> Peyzaj Tasarımı</a></li>
+                    <li><a href="peyzaj.html"><i class="fa fa-chevron-right"></i> Peyzaj Uygulaması</a></li>
+                    <li><a href="kir-dugun.html"><i class="fa fa-chevron-right"></i> Kır Düğünü</a></li>
+                    <li><a href="organizasyon.html"><i class="fa fa-chevron-right"></i> Nişan Organizasyonu</a></li>
+                    <li><a href="organizasyon.html"><i class="fa fa-chevron-right"></i> Özel Etkinlikler</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-title">İletişim</p>
+                <div class="f-contact-item"><i class="fa fa-map-marker-alt"></i><span>İzmir, Türkiye</span></div>
+                <div class="f-contact-item"><i class="fa fa-phone"></i><span>+90 (232) 000 00 00</span></div>
+                <div class="f-contact-item"><i class="fa fa-envelope"></i><span>info@peyzaj35.tr</span></div>
+                <div class="f-contact-item"><i class="fa fa-clock"></i><span>Pzt–Cmt: 09:00 – 18:00</span></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Peyzaj35. Tüm hakları saklıdır.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Gizlilik Politikası</a>
+                <a href="#">Kullanım Koşulları</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50));
+
+    const mobileNav = document.getElementById('mobileNav');
+    document.getElementById('hamburger').addEventListener('click', () => { mobileNav.classList.add('open'); document.body.style.overflow = 'hidden'; });
+    document.getElementById('mobileClose').addEventListener('click', closeMob);
+    function closeMob() { mobileNav.classList.remove('open'); document.body.style.overflow = ''; }
+
+    const io = new IntersectionObserver(e => e.forEach(x => { if (x.isIntersecting) x.target.classList.add('visible'); }), { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
