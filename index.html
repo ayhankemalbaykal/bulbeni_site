@@ -175,9 +175,12 @@
         .form-group label { display: block; font-size: .8rem; font-weight: 500; color: var(--text-mid); margin-bottom: 7px; text-transform: uppercase; letter-spacing: .08em; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1.5px solid var(--cream-dark); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .9rem; color: var(--text-dark); background: var(--white); transition: var(--ease); outline: none; appearance: none; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,90,27,.1); }
-        .form-group input.input-error { border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.1); }
+        .form-group input.input-error, .form-group textarea.input-error { border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.1); }
         .field-error { display: none; font-size: .78rem; color: #b91c1c; margin-top: 6px; }
         .field-error.show { display: block; }
+        .form-warning { display: none; align-items: center; gap: 8px; background: #fef3c7; border: 1.5px solid #f59e0b; color: #92400e; font-size: .85rem; padding: 12px 16px; border-radius: 10px; margin-bottom: 16px; line-height: 1.5; }
+        .form-warning.show { display: flex; }
+        .form-warning i { flex-shrink: 0; }
         .form-group textarea { resize: vertical; min-height: 130px; }
         .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5240' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 44px; }
         .btn-submit { width: 100%; justify-content: center; padding: 16px; font-size: 1rem; }
@@ -489,7 +492,8 @@
                     </div>
                     <div class="form-group">
                         <label for="email">E-posta</label>
-                        <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
+                        <input type="email" id="email" name="email" placeholder="ornek@email.com">
+                        <span class="field-error" id="emailError">Lütfen geçerli bir e-posta adresi giriniz</span>
                     </div>
                     <div class="form-group">
                         <label for="subject">Konu</label>
@@ -503,7 +507,12 @@
                     </div>
                     <div class="form-group">
                         <label for="message">Mesajınız</label>
-                        <textarea id="message" name="message" placeholder="Projeniz veya organizasyonunuz hakkında bize bilgi verin..." required></textarea>
+                        <textarea id="message" name="message" placeholder="Projeniz veya organizasyonunuz hakkında bize bilgi verin..."></textarea>
+                        <span class="field-error" id="messageError">Mesajınız en az 3 karakter olmalıdır</span>
+                    </div>
+                    <div class="form-warning" id="contactWarning">
+                        <i class="fa fa-exclamation-circle"></i>
+                        Mesaj göndermek için lütfen telefon veya e-posta alanlarından en az birini doldurunuz
                     </div>
                     <button type="submit" class="btn btn-green btn-submit">
                         <i class="fa fa-paper-plane"></i> Mesaj Gönder
@@ -662,10 +671,79 @@
         return false;
     }
 
+    // Email validation
+    const emailInput = document.getElementById('email');
+    const emailError = document.getElementById('emailError');
+
+    emailInput.addEventListener('blur', () => validateEmail());
+    emailInput.addEventListener('input', function() {
+        if (emailError.classList.contains('show')) {
+            emailError.classList.remove('show');
+            this.classList.remove('input-error');
+        }
+        document.getElementById('contactWarning').classList.remove('show');
+    });
+
+    function validateEmail() {
+        const val = emailInput.value.trim();
+        if (val === '') return true;
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+        if (ok) {
+            emailError.classList.remove('show');
+            emailInput.classList.remove('input-error');
+            return true;
+        }
+        emailError.classList.add('show');
+        emailInput.classList.add('input-error');
+        return false;
+    }
+
+    // Message validation
+    const messageInput = document.getElementById('message');
+    const messageError = document.getElementById('messageError');
+
+    messageInput.addEventListener('blur', () => validateMessage());
+    messageInput.addEventListener('input', function() {
+        if (messageError.classList.contains('show')) {
+            messageError.classList.remove('show');
+            this.classList.remove('input-error');
+        }
+    });
+
+    function validateMessage() {
+        const val = messageInput.value.trim();
+        if (val.length >= 3) {
+            messageError.classList.remove('show');
+            messageInput.classList.remove('input-error');
+            return true;
+        }
+        messageError.classList.add('show');
+        messageInput.classList.add('input-error');
+        return false;
+    }
+
     // Contact form — Formspree
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
-        if (!validatePhone()) { phoneInput.focus(); return; }
+
+        const phoneOk = validatePhone();
+        const emailOk = validateEmail();
+        const msgOk   = validateMessage();
+
+        // En az telefon veya e-posta dolu olmalı
+        const phoneDigits = phoneInput.value.replace(/\D/g, '');
+        const emailVal    = emailInput.value.trim();
+        const hasContact  = (phoneDigits.length === 10 && phoneDigits.startsWith('5')) || (emailVal && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailVal));
+        const warning     = document.getElementById('contactWarning');
+
+        if (!hasContact) {
+            warning.classList.add('show');
+            if (!emailVal && !phoneInput.value) emailInput.focus();
+        } else {
+            warning.classList.remove('show');
+        }
+
+        if (!phoneOk || !emailOk || !msgOk || !hasContact) return;
         const btn = this.querySelector('.btn-submit');
         const orig = btn.innerHTML;
         btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...';
