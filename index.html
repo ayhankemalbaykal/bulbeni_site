@@ -482,7 +482,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label for="name">Ad Soyad</label>
-                            <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" required>
+                            <input type="text" id="name" name="name" placeholder="Adınız Soyadınız">
                             <span class="field-error" id="nameError">Lütfen bu alanı doldurunuz</span>
                         </div>
                         <div class="form-group">
@@ -639,6 +639,30 @@
         });
     });
 
+    // Name validation
+    const nameInput = document.getElementById('name');
+    const nameError = document.getElementById('nameError');
+
+    nameInput.addEventListener('blur', () => validateName());
+    nameInput.addEventListener('input', function() {
+        if (nameError.classList.contains('show')) {
+            nameError.classList.remove('show');
+            this.classList.remove('input-error');
+        }
+    });
+
+    function validateName() {
+        const val = nameInput.value.trim();
+        if (val.length >= 2) {
+            nameError.classList.remove('show');
+            nameInput.classList.remove('input-error');
+            return true;
+        }
+        nameError.classList.add('show');
+        nameInput.classList.add('input-error');
+        return false;
+    }
+
     // Phone formatting & validation
     const phoneInput = document.getElementById('phone');
     const phoneError = document.getElementById('phoneError');
@@ -727,6 +751,7 @@
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
+        const nameOk  = validateName();
         const phoneOk = validatePhone();
         const emailOk = validateEmail();
         const msgOk   = validateMessage();
@@ -744,7 +769,7 @@
             warning.classList.remove('show');
         }
 
-        if (!phoneOk || !emailOk || !msgOk || !hasContact) return;
+        if (!nameOk || !phoneOk || !emailOk || !msgOk || !hasContact) return;
         const btn = this.querySelector('.btn-submit');
         const orig = btn.innerHTML;
         btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...';
