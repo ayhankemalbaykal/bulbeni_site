@@ -3,69 +3,643 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bulbeni</title>
+    <meta name="description" content="Peyzaj35 - İzmir'in en güzel kır düğünü mekanı ve peyzaj hizmetleri">
+    <meta name="keywords" content="peyzaj, kır düğünü, organizasyon, İzmir, bahçe tasarımı">
+    <title>Peyzaj35 | Peyzaj & Kır Düğünü Mekanı</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <style>
-        body {
-            margin: 0;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
+        :root {
+            --green-dark: #1a3a0f;
+            --green-mid: #2d5a1b;
+            --green-light: #4a8c3f;
+            --gold: #c9a227;
+            --gold-light: #e5c84a;
+            --cream: #f8f4ed;
+            --cream-dark: #ede8df;
+            --white: #ffffff;
+            --text-dark: #1c2b1a;
+            --text-mid: #4a5240;
+            --text-light: #7a8a70;
+            --shadow-sm: 0 2px 10px rgba(0,0,0,0.08);
+            --shadow: 0 4px 20px rgba(0,0,0,0.12);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.18);
+            --radius: 12px;
+            --radius-lg: 20px;
+            --ease: all 0.35s cubic-bezier(0.4,0,0.2,1);
         }
 
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 40px 20px;
-            text-align: center;
-        }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Poppins', sans-serif; color: var(--text-dark); background: var(--white); line-height: 1.6; overflow-x: hidden; }
+        img { display: block; max-width: 100%; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; line-height: 1.25; }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
+        /* ── UTILITIES ── */
+        .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 100px 0; }
+        .section-label { display: inline-block; font-size: .75rem; font-weight: 600; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin-bottom: .75rem; }
+        .section-title { font-size: clamp(2rem,4vw,2.75rem); color: var(--text-dark); margin-bottom: 1rem; }
+        .section-desc { font-size: 1.05rem; color: var(--text-mid); line-height: 1.8; max-width: 560px; }
+        .section-header { margin-bottom: 64px; }
+        .text-center { text-align: center; }
+        .text-center .section-desc { margin: 0 auto; }
 
-        p {
-            font-size: 18px;
-            color: #94a3b8;
-        }
+        .btn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 32px; border-radius: 50px; font-family: 'Poppins', sans-serif; font-size: .95rem; font-weight: 500; cursor: pointer; border: none; transition: var(--ease); letter-spacing: .03em; }
+        .btn-primary { background: var(--gold); color: var(--text-dark); }
+        .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(201,162,39,.4); }
+        .btn-outline { background: transparent; color: var(--white); border: 2px solid rgba(255,255,255,.7); }
+        .btn-outline:hover { background: rgba(255,255,255,.12); border-color: var(--white); transform: translateY(-2px); }
+        .btn-green { background: var(--green-mid); color: var(--white); }
+        .btn-green:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(45,90,27,.3); }
 
-        .button {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 12px 24px;
-            background: #3b82f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: 0.2s;
-        }
+        /* ── NAVBAR ── */
+        .navbar { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 20px 0; transition: var(--ease); }
+        .navbar.scrolled { background: rgba(255,255,255,.97); backdrop-filter: blur(12px); padding: 14px 0; box-shadow: var(--shadow-sm); }
+        .navbar .container { display: flex; align-items: center; justify-content: space-between; }
+        .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); transition: var(--ease); }
+        .navbar.scrolled .nav-logo { color: var(--green-dark); }
+        .nav-logo-icon { width: 36px; height: 36px; background: var(--gold); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .nav-links { display: flex; align-items: center; gap: 36px; }
+        .nav-links a { font-size: .9rem; font-weight: 500; color: rgba(255,255,255,.9); transition: var(--ease); position: relative; }
+        .nav-links a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--gold); transition: var(--ease); }
+        .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
+        .navbar.scrolled .nav-links a { color: var(--text-mid); }
+        .nav-links a:hover { color: var(--gold); }
+        .navbar.scrolled .nav-links a:hover { color: var(--green-mid); }
+        .nav-cta { background: var(--gold) !important; color: var(--text-dark) !important; padding: 10px 24px; border-radius: 50px; font-weight: 600 !important; }
+        .nav-cta::after { display: none !important; }
+        .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 4px; background: none; border: none; }
+        .hamburger span { display: block; width: 24px; height: 2px; background: var(--white); transition: var(--ease); }
+        .navbar.scrolled .hamburger span { background: var(--text-dark); }
 
-        .button:hover {
-            background: #2563eb;
-        }
+        /* ── MOBILE NAV ── */
+        .mobile-nav { display: none; position: fixed; inset: 0; background: var(--green-dark); z-index: 999; flex-direction: column; align-items: center; justify-content: center; gap: 32px; }
+        .mobile-nav.open { display: flex; }
+        .mobile-nav a { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--white); transition: var(--ease); }
+        .mobile-nav a:hover { color: var(--gold); }
+        .mobile-close { position: absolute; top: 24px; right: 24px; font-size: 1.5rem; color: var(--white); cursor: pointer; background: none; border: none; }
 
-        .card {
-            margin-top: 40px;
-            padding: 20px;
-            background: #1e293b;
-            border-radius: 12px;
+        /* ── HERO ── */
+        .hero { min-height: 100vh; display: flex; align-items: center; position: relative; background: linear-gradient(135deg, #0f2408 0%, #1a3a0f 40%, #2d5a1b 100%); overflow: hidden; }
+        .hero-bg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&auto=format&fit=crop&q=80') center/cover; opacity: .18; }
+        .hero-deco { position: absolute; border-radius: 50%; }
+        .hero-deco-1 { width: 700px; height: 700px; top: -250px; right: -150px; background: radial-gradient(circle, rgba(201,162,39,.12) 0%, transparent 70%); }
+        .hero-deco-2 { width: 400px; height: 400px; bottom: -120px; left: 5%; background: radial-gradient(circle, rgba(74,140,63,.15) 0%, transparent 70%); }
+        .hero-content { position: relative; z-index: 2; max-width: 680px; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(201,162,39,.15); border: 1px solid rgba(201,162,39,.3); color: var(--gold-light); padding: 8px 18px; border-radius: 50px; font-size: .8rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; margin-bottom: 28px; }
+        .hero h1 { font-size: clamp(2.8rem,6vw,4.5rem); color: var(--white); line-height: 1.15; margin-bottom: 24px; }
+        .hero h1 em { color: var(--gold); font-style: italic; }
+        .hero-desc { font-size: 1.1rem; color: rgba(255,255,255,.72); line-height: 1.8; margin-bottom: 40px; max-width: 520px; }
+        .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
+        .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; color: rgba(255,255,255,.45); font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; animation: bounce 2s ease-in-out infinite; }
+        @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+        /* ── SERVICES ── */
+        .services { background: var(--cream); }
+        .services-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+        .service-card { background: var(--white); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-sm); transition: var(--ease); }
+        .service-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); }
+        .service-img { height: 220px; overflow: hidden; position: relative; }
+        .service-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+        .service-card:hover .service-img img { transform: scale(1.06); }
+        .svc-bg-1 { background: linear-gradient(135deg,#1a3a0f,#4a8c3f); }
+        .svc-bg-2 { background: linear-gradient(135deg,#3a1a28,#8c4a68); }
+        .svc-bg-3 { background: linear-gradient(135deg,#1a263a,#4a688c); }
+        .service-body { padding: 28px; }
+        .svc-icon { width: 52px; height: 52px; background: linear-gradient(135deg,var(--green-mid),var(--green-light)); border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+        .svc-icon i { color: var(--white); font-size: 1.3rem; }
+        .service-card h3 { font-size: 1.3rem; margin-bottom: 10px; }
+        .service-card p { font-size: .9rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 20px; }
+        .svc-link { display: inline-flex; align-items: center; gap: 6px; font-size: .875rem; font-weight: 600; color: var(--green-mid); transition: var(--ease); }
+        .svc-link:hover { gap: 10px; color: var(--green-dark); }
+
+        /* ── ABOUT ── */
+        .about { background: var(--white); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .about-imgs { position: relative; }
+        .about-main { width: 100%; height: 480px; object-fit: cover; border-radius: var(--radius-lg); box-shadow: var(--shadow-lg); }
+        .about-mini { position: absolute; bottom: -40px; right: -36px; width: 190px; height: 190px; object-fit: cover; border-radius: var(--radius); border: 6px solid var(--white); box-shadow: var(--shadow); }
+        .about-badge { position: absolute; top: 32px; right: -24px; background: var(--gold); color: var(--text-dark); padding: 20px 22px; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); }
+        .about-badge .num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; line-height: 1; }
+        .about-badge .lbl { font-size: .68rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; }
+        .about-content .section-desc { max-width: 100%; margin-bottom: 16px; }
+        .about-features { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 28px 0 36px; }
+        .about-feat { display: flex; align-items: center; gap: 10px; font-size: .9rem; color: var(--text-mid); }
+        .about-feat i { color: var(--green-mid); width: 18px; }
+
+        /* ── STATS ── */
+        .stats { background: linear-gradient(135deg,var(--green-dark),var(--green-mid)); padding: 80px 0; }
+        .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 0; }
+        .stat-item { text-align: center; color: var(--white); padding: 0 32px; position: relative; }
+        .stat-item:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 10%; height: 80%; width: 1px; background: rgba(255,255,255,.15); }
+        .stat-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 8px; }
+        .stat-lbl { font-size: .9rem; color: rgba(255,255,255,.7); }
+
+        /* ── GALLERY ── */
+        .gallery { background: var(--cream); }
+        .gallery-grid { display: grid; grid-template-columns: repeat(3,1fr); grid-template-rows: repeat(2,260px); gap: 16px; }
+        .g-item { border-radius: var(--radius); overflow: hidden; position: relative; cursor: pointer; }
+        .g-item:first-child { grid-row: span 2; }
+        .g-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+        .g-item:hover img { transform: scale(1.07); }
+        .g-overlay { position: absolute; inset: 0; background: linear-gradient(to top,rgba(20,40,10,.65),transparent); opacity: 0; transition: var(--ease); display: flex; align-items: flex-end; padding: 20px; }
+        .g-item:hover .g-overlay { opacity: 1; }
+        .g-overlay span { color: var(--white); font-size: .85rem; font-weight: 500; }
+
+        /* ── CONTACT ── */
+        .contact { background: var(--white); }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 80px; align-items: start; }
+        .contact-info > h3 { font-size: 1.5rem; margin-bottom: 8px; }
+        .contact-info > p { color: var(--text-mid); margin-bottom: 36px; line-height: 1.7; }
+        .c-items { display: flex; flex-direction: column; gap: 22px; margin-bottom: 36px; }
+        .c-item { display: flex; align-items: flex-start; gap: 14px; }
+        .c-icon { width: 44px; height: 44px; background: var(--cream); border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .c-icon i { color: var(--green-mid); font-size: 1.05rem; }
+        .c-text h4 { font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .1em; color: var(--text-light); margin-bottom: 3px; }
+        .c-text p { font-size: .95rem; color: var(--text-dark); }
+        .socials { display: flex; gap: 10px; }
+        .soc-btn { width: 42px; height: 42px; border-radius: 10px; background: var(--cream); display: flex; align-items: center; justify-content: center; color: var(--text-mid); font-size: 1rem; transition: var(--ease); }
+        .soc-btn:hover { background: var(--green-mid); color: var(--white); transform: translateY(-3px); }
+
+        .c-form { background: var(--cream); padding: 40px; border-radius: var(--radius-lg); }
+        .c-form h3 { font-size: 1.5rem; margin-bottom: 28px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { display: block; font-size: .8rem; font-weight: 500; color: var(--text-mid); margin-bottom: 7px; text-transform: uppercase; letter-spacing: .08em; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1.5px solid var(--cream-dark); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .9rem; color: var(--text-dark); background: var(--white); transition: var(--ease); outline: none; appearance: none; }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,90,27,.1); }
+        .form-group textarea { resize: vertical; min-height: 130px; }
+        .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5240' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 44px; }
+        .btn-submit { width: 100%; justify-content: center; padding: 16px; font-size: 1rem; }
+
+        /* ── FOOTER ── */
+        .footer { background: var(--green-dark); color: rgba(255,255,255,.65); padding: 70px 0 0; }
+        .footer-grid { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr; gap: 48px; padding-bottom: 60px; }
+        .footer .nav-logo { color: var(--white); margin-bottom: 16px; }
+        .footer-brand p { font-size: .88rem; line-height: 1.75; margin-bottom: 24px; }
+        .footer-title { font-family: 'Poppins', sans-serif; font-size: .78rem; font-weight: 600; text-transform: uppercase; letter-spacing: .15em; color: var(--white); margin-bottom: 20px; }
+        .footer-links { display: flex; flex-direction: column; gap: 10px; }
+        .footer-links a { font-size: .88rem; color: rgba(255,255,255,.55); transition: var(--ease); display: flex; align-items: center; gap: 6px; }
+        .footer-links a:hover { color: var(--gold); gap: 10px; }
+        .f-contact-item { display: flex; align-items: flex-start; gap: 10px; font-size: .85rem; margin-bottom: 14px; }
+        .f-contact-item i { color: var(--gold); margin-top: 2px; flex-shrink: 0; }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,.08); padding: 22px 0; display: flex; align-items: center; justify-content: space-between; }
+        .footer-bottom p { font-size: .82rem; }
+        .footer-bottom-links { display: flex; gap: 24px; }
+        .footer-bottom-links a { font-size: .82rem; color: rgba(255,255,255,.45); transition: var(--ease); }
+        .footer-bottom-links a:hover { color: var(--gold); }
+
+        /* ── ANIMATIONS ── */
+        .fade-up { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+        .fade-up.visible { opacity: 1; transform: translateY(0); }
+        .d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; } .d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .about-grid { gap: 48px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+            .stats-grid { grid-template-columns: repeat(2,1fr); gap: 48px; }
+            .stat-item::after { display: none; }
+            .stat-item { padding: 20px; }
+        }
+        @media (max-width: 768px) {
+            .section { padding: 70px 0; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .services-grid { grid-template-columns: 1fr; }
+            .about-grid { grid-template-columns: 1fr; gap: 60px; }
+            .about-mini { display: none; }
+            .about-badge { right: 20px; }
+            .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .g-item:first-child { grid-row: span 1; grid-column: span 2; height: 260px; }
+            .g-item { height: 200px; }
+            .contact-grid { grid-template-columns: 1fr; gap: 48px; }
+            .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+            .footer-bottom { flex-direction: column; gap: 12px; text-align: center; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 480px) {
+            .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .g-item, .g-item:first-child { grid-column: span 1; grid-row: span 1; height: 220px; }
+            .hero-actions { flex-direction: column; }
+            .about-features { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2,1fr); }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Bulbeni 🚀</h1>
-    <p>İlk modern web sitem yayında</p>
+<!-- MOBILE NAV -->
+<nav class="mobile-nav" id="mobileNav">
+    <button class="mobile-close" id="mobileClose"><i class="fa fa-times"></i></button>
+    <a href="#hero" onclick="closeMob()">Ana Sayfa</a>
+    <a href="#hizmetler" onclick="closeMob()">Hizmetler</a>
+    <a href="#hakkimizda" onclick="closeMob()">Hakkımızda</a>
+    <a href="#galeri" onclick="closeMob()">Galeri</a>
+    <a href="#iletisim" onclick="closeMob()">İletişim</a>
+</nav>
 
-    <a href="#" class="button">Başla</a>
-
-    <div class="card">
-        <h3>Deploy Başarılı 🎉</h3>
-        <p>Bu site Vercel üzerinde çalışıyor.</p>
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+    <div class="container">
+        <a href="#hero" class="nav-logo">
+            <div class="nav-logo-icon">🌿</div>
+            Peyzaj35
+        </a>
+        <ul class="nav-links">
+            <li><a href="#hero" class="active">Ana Sayfa</a></li>
+            <li><a href="#hizmetler">Hizmetler</a></li>
+            <li><a href="#hakkimizda">Hakkımızda</a></li>
+            <li><a href="#galeri">Galeri</a></li>
+            <li><a href="#iletisim" class="nav-cta">İletişim</a></li>
+        </ul>
+        <button class="hamburger" id="hamburger" aria-label="Menü">
+            <span></span><span></span><span></span>
+        </button>
     </div>
-</div>
+</header>
 
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-deco hero-deco-1"></div>
+    <div class="hero-deco hero-deco-2"></div>
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge"><i class="fa fa-leaf"></i> İzmir'in Gözde Peyzaj Mekanı</div>
+            <h1>Doğanın İçinde<br><em>Hayalinizdeki</em> An</h1>
+            <p class="hero-desc">
+                Peyzaj tasarımından kır düğününe, özel organizasyonlardan bahçe düzenlemesine kadar
+                her ihtiyacınıza profesyonel çözümler sunuyoruz.
+            </p>
+            <div class="hero-actions">
+                <a href="#iletisim" class="btn btn-primary"><i class="fa fa-calendar"></i> Randevu Al</a>
+                <a href="#galeri" class="btn btn-outline"><i class="fa fa-images"></i> Galeriyi Gör</a>
+            </div>
+        </div>
+    </div>
+    <div class="hero-scroll">
+        <span>Keşfet</span>
+        <i class="fa fa-chevron-down"></i>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="section services" id="hizmetler">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-label">Hizmetlerimiz</span>
+            <h2 class="section-title">Size Neler Sunuyoruz?</h2>
+            <p class="section-desc">Peyzaj tasarımı, kır düğünü organizasyonu ve özel etkinlikler için kapsamlı ve kişiye özel hizmetler.</p>
+        </div>
+        <div class="services-grid">
+            <!-- Peyzaj -->
+            <div class="service-card fade-up">
+                <div class="service-img svc-bg-1">
+                    <img src="https://picsum.photos/seed/landscp1/600/440" alt="Peyzaj Tasarım">
+                </div>
+                <div class="service-body">
+                    <div class="svc-icon"><i class="fa fa-seedling"></i></div>
+                    <h3>Peyzaj Tasarım & Uygulama</h3>
+                    <p>Bahçelerinizi, dış mekanlarınızı ve yeşil alanlarınızı uzman el değmesiyle sanat eserine dönüştürüyoruz. Tasarımdan uygulamaya tüm süreç bizde.</p>
+                    <a href="#iletisim" class="svc-link">Detaylar <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <!-- Kır Düğünü -->
+            <div class="service-card fade-up d2">
+                <div class="service-img svc-bg-2">
+                    <img src="https://picsum.photos/seed/weddingrural/600/440" alt="Kır Düğünü">
+                </div>
+                <div class="service-body">
+                    <div class="svc-icon"><i class="fa fa-heart"></i></div>
+                    <h3>Kır Düğünü</h3>
+                    <p>Doğanın kucağında, en özel gününüzü unutulmaz kılıyoruz. Yeşilin ve çiçeklerin arasında düşlediğiniz düğüne kavuşun; tüm organizasyon detayları bizde.</p>
+                    <a href="#iletisim" class="svc-link">Detaylar <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <!-- Organizasyon -->
+            <div class="service-card fade-up d4">
+                <div class="service-img svc-bg-3">
+                    <img src="https://picsum.photos/seed/eventopen1/600/440" alt="Özel Organizasyon">
+                </div>
+                <div class="service-body">
+                    <div class="svc-icon"><i class="fa fa-star"></i></div>
+                    <h3>Özel Organizasyonlar</h3>
+                    <p>Nişan, doğum günü, kurumsal etkinlik veya özel kutlamalar için mekanımızın büyülü atmosferinde hayallerinizi gerçekleştiriyoruz.</p>
+                    <a href="#iletisim" class="svc-link">Detaylar <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="section about" id="hakkimizda">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-imgs fade-up">
+                <img class="about-main" src="https://picsum.photos/seed/gardenview2/800/700" alt="Mekanımız">
+                <div class="about-badge">
+                    <div class="num">10+</div>
+                    <div class="lbl">Yıllık<br>Deneyim</div>
+                </div>
+                <img class="about-mini" src="https://picsum.photos/seed/flowers99/400/400" alt="Detay">
+            </div>
+            <div class="about-content fade-up d2">
+                <span class="section-label">Hakkımızda</span>
+                <h2 class="section-title">Doğayla İç İçe,<br>Sizi Düşünerek</h2>
+                <p class="section-desc">
+                    Yılların verdiği deneyim ve doğaya olan derin sevgiyle, İzmir'in en güzel peyzaj mekanını sizler için oluşturduk.
+                    Her projeye ve etkinliğe özgün bir dokunuş, kişisel ilgi ve en yüksek kalite standardıyla yaklaşıyoruz.
+                </p>
+                <p class="section-desc" style="margin-top:14px">
+                    Geniş yeşil alanları, çiçek bahçeleri ve doğal ortamıyla mekanımız; hem profesyonel peyzaj projeleri
+                    hem de özel organizasyonlar için eşsiz bir atmosfer sunmaktadır.
+                </p>
+                <div class="about-features">
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Uzman Peyzaj Ekibi</div>
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Kır Düğünü Uzmanlığı</div>
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Doğal Malzeme Kullanımı</div>
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Kişiye Özel Tasarım</div>
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Uçtan Uca Organizasyon</div>
+                    <div class="about-feat"><i class="fa fa-check-circle"></i> Sürdürülebilir Yaklaşım</div>
+                </div>
+                <a href="#iletisim" class="btn btn-green"><i class="fa fa-phone"></i> Bize Ulaşın</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+    <div class="container">
+        <div class="stats-grid">
+            <div class="stat-item fade-up">
+                <div class="stat-num" data-target="250" data-suffix="+">0</div>
+                <div class="stat-lbl">Tamamlanan Proje</div>
+            </div>
+            <div class="stat-item fade-up d1">
+                <div class="stat-num" data-target="10" data-suffix="+">0</div>
+                <div class="stat-lbl">Yıllık Deneyim</div>
+            </div>
+            <div class="stat-item fade-up d2">
+                <div class="stat-num" data-target="120" data-suffix="+">0</div>
+                <div class="stat-lbl">Mutlu Çift</div>
+            </div>
+            <div class="stat-item fade-up d3">
+                <div class="stat-num" data-target="5000" data-suffix="m²">0</div>
+                <div class="stat-lbl">Yeşil Alan</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- GALLERY -->
+<section class="section gallery" id="galeri">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-label">Galeri</span>
+            <h2 class="section-title">Çalışmalarımızdan Kareler</h2>
+            <p class="section-desc">Gerçekleştirdiğimiz projeler ve organizasyonlardan seçkin fotoğraflar.</p>
+        </div>
+        <div class="gallery-grid">
+            <div class="g-item fade-up">
+                <img src="https://picsum.photos/seed/galery10/700/560" alt="Peyzaj Projesi">
+                <div class="g-overlay"><span>Peyzaj Projesi</span></div>
+            </div>
+            <div class="g-item fade-up d1">
+                <img src="https://picsum.photos/seed/galery20/600/260" alt="Kır Düğünü">
+                <div class="g-overlay"><span>Kır Düğünü</span></div>
+            </div>
+            <div class="g-item fade-up d2">
+                <img src="https://picsum.photos/seed/galery30/600/260" alt="Çiçek Düzenlemesi">
+                <div class="g-overlay"><span>Çiçek Düzenlemesi</span></div>
+            </div>
+            <div class="g-item fade-up d1">
+                <img src="https://picsum.photos/seed/galery40/600/260" alt="Açık Alan Organizasyonu">
+                <div class="g-overlay"><span>Açık Alan Organizasyonu</span></div>
+            </div>
+            <div class="g-item fade-up d2">
+                <img src="https://picsum.photos/seed/galery50/600/260" alt="Bahçe Tasarımı">
+                <div class="g-overlay"><span>Bahçe Tasarımı</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section contact" id="iletisim">
+    <div class="container">
+        <div class="section-header text-center">
+            <span class="section-label">İletişim</span>
+            <h2 class="section-title">Hayalinizi Konuşalım</h2>
+            <p class="section-desc">Projeniz veya organizasyonunuz için bizimle iletişime geçin, size özel çözümler sunalım.</p>
+        </div>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Bize Ulaşın</h3>
+                <p>Aşağıdaki kanallardan bize ulaşabilir veya formu doldurabilirsiniz. En kısa sürede size geri döneceğiz.</p>
+                <div class="c-items">
+                    <div class="c-item">
+                        <div class="c-icon"><i class="fa fa-phone"></i></div>
+                        <div class="c-text"><h4>Telefon</h4><p>+90 (232) 000 00 00</p></div>
+                    </div>
+                    <div class="c-item">
+                        <div class="c-icon"><i class="fa fa-envelope"></i></div>
+                        <div class="c-text"><h4>E-posta</h4><p>info@peyzaj35.tr</p></div>
+                    </div>
+                    <div class="c-item">
+                        <div class="c-icon"><i class="fa fa-map-marker-alt"></i></div>
+                        <div class="c-text"><h4>Adres</h4><p>İzmir, Türkiye</p></div>
+                    </div>
+                    <div class="c-item">
+                        <div class="c-icon"><i class="fa fa-clock"></i></div>
+                        <div class="c-text"><h4>Çalışma Saatleri</h4><p>Pazartesi – Cumartesi: 09:00 – 18:00</p></div>
+                    </div>
+                </div>
+                <div class="socials">
+                    <a href="#" class="soc-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="soc-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="soc-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div class="c-form">
+                <h3>Mesaj Gönderin</h3>
+                <form id="contactForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Ad Soyad</label>
+                            <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Telefon</label>
+                            <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-posta</label>
+                        <input type="email" id="email" name="email" placeholder="ornek@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Konu</label>
+                        <select id="subject" name="subject">
+                            <option value="" disabled selected>Hizmet seçiniz</option>
+                            <option value="peyzaj">Peyzaj Tasarım & Uygulama</option>
+                            <option value="dugun">Kır Düğünü</option>
+                            <option value="organizasyon">Özel Organizasyon</option>
+                            <option value="diger">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mesajınız</label>
+                        <textarea id="message" name="message" placeholder="Projeniz veya organizasyonunuz hakkında bize bilgi verin..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-green btn-submit">
+                        <i class="fa fa-paper-plane"></i> Mesaj Gönder
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="#hero" class="nav-logo">
+                    <div class="nav-logo-icon">🌿</div>
+                    Peyzaj35
+                </a>
+                <p>İzmir'in yeşil kalbinde, doğayla iç içe bir deneyim sunuyoruz. Peyzaj tasarımı, kır düğünü ve özel organizasyonlar için güvenilir adresiniz.</p>
+                <div class="socials">
+                    <a href="#" class="soc-btn" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="soc-btn" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="soc-btn" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+            <div>
+                <p class="footer-title">Hızlı Bağlantılar</p>
+                <ul class="footer-links">
+                    <li><a href="#hero"><i class="fa fa-chevron-right"></i> Ana Sayfa</a></li>
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Hizmetler</a></li>
+                    <li><a href="#hakkimizda"><i class="fa fa-chevron-right"></i> Hakkımızda</a></li>
+                    <li><a href="#galeri"><i class="fa fa-chevron-right"></i> Galeri</a></li>
+                    <li><a href="#iletisim"><i class="fa fa-chevron-right"></i> İletişim</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-title">Hizmetler</p>
+                <ul class="footer-links">
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Peyzaj Tasarımı</a></li>
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Peyzaj Uygulaması</a></li>
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Kır Düğünü</a></li>
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Nişan Organizasyonu</a></li>
+                    <li><a href="#hizmetler"><i class="fa fa-chevron-right"></i> Özel Etkinlikler</a></li>
+                </ul>
+            </div>
+            <div>
+                <p class="footer-title">İletişim</p>
+                <div class="f-contact-item"><i class="fa fa-map-marker-alt"></i><span>İzmir, Türkiye</span></div>
+                <div class="f-contact-item"><i class="fa fa-phone"></i><span>+90 (232) 000 00 00</span></div>
+                <div class="f-contact-item"><i class="fa fa-envelope"></i><span>info@peyzaj35.tr</span></div>
+                <div class="f-contact-item"><i class="fa fa-clock"></i><span>Pzt–Cmt: 09:00 – 18:00</span></div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 Peyzaj35. Tüm hakları saklıdır.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Gizlilik Politikası</a>
+                <a href="#">Kullanım Koşulları</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+        navbar.classList.toggle('scrolled', window.scrollY > 50);
+    });
+
+    // Mobile nav
+    const mobileNav = document.getElementById('mobileNav');
+    document.getElementById('hamburger').addEventListener('click', () => {
+        mobileNav.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    });
+    document.getElementById('mobileClose').addEventListener('click', closeMob);
+    function closeMob() {
+        mobileNav.classList.remove('open');
+        document.body.style.overflow = '';
+    }
+
+    // Scroll animations
+    const io = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.fade-up').forEach(el => io.observe(el));
+
+    // Counter animation
+    const counterIO = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            const el = e.target;
+            const target = parseInt(el.dataset.target);
+            const suffix = el.dataset.suffix || '';
+            const duration = 1800;
+            const steps = 60;
+            const increment = target / steps;
+            let current = 0;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = Math.floor(current).toLocaleString('tr-TR') + suffix;
+            }, duration / steps);
+            counterIO.unobserve(el);
+        });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.stat-num').forEach(el => counterIO.observe(el));
+
+    // Active nav link
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+        navLinks.forEach(a => {
+            a.classList.remove('active');
+            if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+        });
+    });
+
+    // Contact form
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = this.querySelector('.btn-submit');
+        const orig = btn.innerHTML;
+        btn.innerHTML = '<i class="fa fa-check"></i> Gönderildi!';
+        btn.style.background = '#1a3a0f';
+        btn.disabled = true;
+        setTimeout(() => {
+            btn.innerHTML = orig;
+            btn.style.background = '';
+            btn.disabled = false;
+            this.reset();
+        }, 3000);
+    });
+</script>
 </body>
 </html>
