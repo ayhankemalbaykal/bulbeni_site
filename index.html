@@ -175,6 +175,9 @@
         .form-group label { display: block; font-size: .8rem; font-weight: 500; color: var(--text-mid); margin-bottom: 7px; text-transform: uppercase; letter-spacing: .08em; }
         .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px 16px; border: 1.5px solid var(--cream-dark); border-radius: 10px; font-family: 'Poppins', sans-serif; font-size: .9rem; color: var(--text-dark); background: var(--white); transition: var(--ease); outline: none; appearance: none; }
         .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--green-mid); box-shadow: 0 0 0 3px rgba(45,90,27,.1); }
+        .form-group input.input-error { border-color: #b91c1c; box-shadow: 0 0 0 3px rgba(185,28,28,.1); }
+        .field-error { display: none; font-size: .78rem; color: #b91c1c; margin-top: 6px; }
+        .field-error.show { display: block; }
         .form-group textarea { resize: vertical; min-height: 130px; }
         .form-group select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a5240' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; background-size: 16px; padding-right: 44px; }
         .btn-submit { width: 100%; justify-content: center; padding: 16px; font-size: 1rem; }
@@ -480,7 +483,8 @@
                         </div>
                         <div class="form-group">
                             <label for="phone">Telefon</label>
-                            <input type="tel" id="phone" name="phone" placeholder="+90 5XX XXX XX XX">
+                            <input type="tel" id="phone" name="phone" placeholder="555 111 22 33" maxlength="13" autocomplete="tel">
+                            <span class="field-error" id="phoneError">Lütfen geçerli bir telefon numarası giriniz</span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -625,9 +629,43 @@
         });
     });
 
+    // Phone formatting & validation
+    const phoneInput = document.getElementById('phone');
+    const phoneError = document.getElementById('phoneError');
+
+    phoneInput.addEventListener('input', function() {
+        let digits = this.value.replace(/\D/g, '').slice(0, 10);
+        let fmt = '';
+        if (digits.length > 0) fmt = digits.slice(0, 3);
+        if (digits.length > 3) fmt += ' ' + digits.slice(3, 6);
+        if (digits.length > 6) fmt += ' ' + digits.slice(6, 8);
+        if (digits.length > 8) fmt += ' ' + digits.slice(8, 10);
+        this.value = fmt;
+        if (phoneError.classList.contains('show')) {
+            phoneError.classList.remove('show');
+            this.classList.remove('input-error');
+        }
+    });
+
+    phoneInput.addEventListener('blur', () => validatePhone());
+
+    function validatePhone() {
+        const digits = phoneInput.value.replace(/\D/g, '');
+        if (digits === '') return true;
+        if (digits.length === 10 && digits.startsWith('5')) {
+            phoneError.classList.remove('show');
+            phoneInput.classList.remove('input-error');
+            return true;
+        }
+        phoneError.classList.add('show');
+        phoneInput.classList.add('input-error');
+        return false;
+    }
+
     // Contact form — Formspree
     document.getElementById('contactForm').addEventListener('submit', async function(e) {
         e.preventDefault();
+        if (!validatePhone()) { phoneInput.focus(); return; }
         const btn = this.querySelector('.btn-submit');
         const orig = btn.innerHTML;
         btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Gönderiliyor...';
